@@ -13,7 +13,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { collectionGroup, query, where, orderBy, onSnapshot, collection, limit } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
@@ -28,7 +28,9 @@ var DeviceInfoBox = function DeviceInfoBox(_ref) {
     _useState4 = _slicedToArray(_useState3, 2),
     allDeviceInfo = _useState4[0],
     setAllDeviceInfo = _useState4[1];
-  var idRace = sampleRace.idRace;
+  var idRace = useMemo(function () {
+    return sampleRace.competitionId;
+  }, [sampleRace]);
 
   // Función para suscribirse a los cambios en tiempo real en los broadcasts
   var subscribeBroadcasts = useCallback(function () {
@@ -52,8 +54,8 @@ var DeviceInfoBox = function DeviceInfoBox(_ref) {
                     while (1) switch (_context.prev = _context.next) {
                       case 0:
                         broadcastData = broadcastDoc.data(); // Contiene "name", "idRace", etc.
-                        console.log("Broadcast Data:", broadcastData); // Log para ver todos los datos
-                        console.log("Broadcast Name:", broadcastData.name); // Log para ver el campo "name"
+                        console.log("Broadcast Data:", broadcastData);
+                        console.log("Broadcast Name:", broadcastData.name);
                         broadcastId = broadcastDoc.id;
                         broadcastPath = broadcastDoc.ref.path;
                         deviceInfoQuery = query(collection(db, "".concat(broadcastPath, "/device_info")), orderBy('timestamp', 'desc'), limit(1));
@@ -118,7 +120,7 @@ var DeviceInfoBox = function DeviceInfoBox(_ref) {
     });
   };
   useEffect(function () {
-    console.log('idRace recibido:', idRace);
+    console.log('idRace recibido:', sampleRace);
     if (idRace) {
       var unsubscribe = subscribeBroadcasts();
       return function () {
