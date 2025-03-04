@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { collectionGroup, query, where, orderBy, onSnapshot, collection, limit } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
@@ -7,7 +7,7 @@ import BroadcastCard from './BroadcastCard';
 const DeviceInfoBox = ({ sampleRace }) => {
   const [broadcasts, setBroadcasts] = useState([]);
   const [allDeviceInfo, setAllDeviceInfo] = useState([]);
-  const idRace = sampleRace.competitionId;
+  const idRace = useMemo(() => sampleRace.competitionId, [sampleRace]);
 
   // Función para suscribirse a los cambios en tiempo real en los broadcasts
   const subscribeBroadcasts = useCallback(() => {
@@ -66,7 +66,7 @@ const DeviceInfoBox = ({ sampleRace }) => {
   };
 
   useEffect(() => {
-    console.log('idRace recibido:', idRace);
+    console.log('idRace recibido:', sampleRace);
     if (idRace) {
       const unsubscribe = subscribeBroadcasts();
       return () => {
