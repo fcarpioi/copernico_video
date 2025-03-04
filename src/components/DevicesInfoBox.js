@@ -7,7 +7,7 @@ import BroadcastCard from './BroadcastCard';
 const DeviceInfoBox = ({ sampleRace }) => {
   const [broadcasts, setBroadcasts] = useState([]);
   const [allDeviceInfo, setAllDeviceInfo] = useState([]);
-  const idRace = sampleRace.idRace;
+  const idRace = sampleRace.competitionId;
 
   // Función para suscribirse a los cambios en tiempo real en los broadcasts
   const subscribeBroadcasts = useCallback(() => {
