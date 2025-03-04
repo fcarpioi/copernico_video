@@ -1,6 +1,6 @@
 {
   "name": "copernico_video",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Componentes para Monitorear transmisiones de video Copernico",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
